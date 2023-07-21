@@ -13,10 +13,10 @@ const Login = () => {
   const handleFormSubmit = (event) => {
     event.preventDefault();
     console.log('Nome de usuário:', username);
-    if(username === '') alert('Nome não pose ser vasio');
+    if(username === '') return alert('Nome não pose ser vasio');
     navigate(`/Chat?username=${encodeURIComponent(username)}`);
   };
-  
+
 
   return (
     <Form className="username-input" onSubmit={handleFormSubmit}>

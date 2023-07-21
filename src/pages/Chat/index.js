@@ -18,7 +18,7 @@ function Chat() {
 
   useEffect(() => {
     socket.on('message', (data) => {
-      // 4. Desencriptar a mensagem recebida
+      // Desencriptar a mensagem recebida do servidor
       const bytes = CryptoJS.AES.decrypt(data.encryptedPayload, process.env.REACT_APP_SECRETKEY); // PRECISA CRIAR ARQUIVO .env na raiz do projeto
       const decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
 
@@ -36,7 +36,12 @@ function Chat() {
 
   const sendMessage = (event) => {
     event.preventDefault();
+
+
     const messageData = { user: username, message };
+
+    // 2. Encriptar a mensagem antes de enviá-la para o servidor
+		const encryptedPayload = CryptoJS.AES.encrypt(JSON.stringify(messageData), process.env.REACT_APP_SECRETKEY).toString();
 
     if(messageData.user === '') {
       alert('Volte na pagina de login para escolher um nome de usuario');
@@ -45,7 +50,8 @@ function Chat() {
     if(messageData.message === '') return alert('Não pode enviar string vasia');
     if(messageData.message.length > 200) return alert('Msg não pode ser maior que 200 char')
 
-    socket.emit('message', messageData);
+		// Envia a mensagem encriptada
+    socket.emit('message', encryptedPayload);
 
     // Salvar a mensagem no LocalStorage
     const storedMessages = JSON.parse(localStorage.getItem('chatMessages')) || [];

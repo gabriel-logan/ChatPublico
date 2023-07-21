@@ -23,8 +23,12 @@ io.on('connection', (socket) => {
   socket.on('message', async (payload) => {
     console.log(`Nova mensagem do usuário ${userId}`);
 
-    // 2. Encriptar a mensagem antes de enviá-la para o cliente
-    const encryptedPayload = CryptoJS.AES.encrypt(JSON.stringify(payload), process.env.SECRETKEY).toString(); // PRECISA CRIAR ARQUIVO .env na raiz do projeto
+		// Desencriptar a mensagem recebida do client
+		const bytes = CryptoJS.AES.decrypt(payload, process.env.REACT_APP_SECRETKEY); // PRECISA CRIAR ARQUIVO .env na raiz do projeto
+		const decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+
+    // Encriptar a mensagem antes de enviá-la para o cliente
+    const encryptedPayload = CryptoJS.AES.encrypt(JSON.stringify(decryptedData), process.env.SECRETKEY).toString(); // PRECISA CRIAR ARQUIVO .env na raiz do projeto
 
     io.emit('message', { encryptedPayload }); // Envia apenas o payload encriptado
   });
