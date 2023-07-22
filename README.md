@@ -1,3 +1,15 @@
+# IMPORTANTE
+
+lembre-se de criar o .env na raiz do projeto para passar as chaves para o servidor e o client
+lembre-se tambem de verificar se as portas estão disponiveis no seu computador e
+de verificar se os endereços de ip estão corretamente digitados tanto no cliente quanto no servidor
+caso contrario podera ter problemas com bloqueio de requisição, problemas com cors e outros problemas,
+sinta se livre para comentar suas duvidas
+
+o .env deve conter
+REACT_APP_SECRETKEY
+SECRETKEY
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

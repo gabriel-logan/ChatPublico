@@ -24,7 +24,7 @@ io.on('connection', (socket) => {
     console.log(`Nova mensagem do usuário ${userId}`);
 
 		// Desencriptar a mensagem recebida do client
-		const bytes = CryptoJS.AES.decrypt(payload, process.env.REACT_APP_SECRETKEY); // PRECISA CRIAR ARQUIVO .env na raiz do projeto
+		const bytes = CryptoJS.AES.decrypt(payload, process.env.SECRETKEY); // PRECISA CRIAR ARQUIVO .env na raiz do projeto
 		const decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
 
     // Encriptar a mensagem antes de enviá-la para o cliente
