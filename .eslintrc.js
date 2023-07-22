@@ -17,6 +17,8 @@ module.exports = {
     'react',
   ],
   rules: {
-    'no-tabs': false,
+    'no-tabs': 0,
+    'react/jsx-filename-extension': 0,
+    'no-alert': 0,
   },
 };

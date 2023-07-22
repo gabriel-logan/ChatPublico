@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Form, Input, Label } from './styled';
+import {
+  Button, Form, Input, Label,
+} from './styled';
 
-const Login = () => {
+function Login() {
   const [username, setUsername] = useState('');
   const navigate = useNavigate();
 
@@ -13,10 +15,9 @@ const Login = () => {
   const handleFormSubmit = (event) => {
     event.preventDefault();
     console.log('Nome de usuário:', username);
-    if(username === '') return alert('Nome não pose ser vasio');
-    navigate(`/Chat?username=${encodeURIComponent(username)}`);
+    if (username === '') return alert('Nome não pose ser vasio');
+    return navigate(`/Chat?username=${encodeURIComponent(username)}`);
   };
-
 
   return (
     <Form className="username-input" onSubmit={handleFormSubmit}>

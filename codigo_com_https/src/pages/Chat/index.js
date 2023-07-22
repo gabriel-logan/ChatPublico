@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import io from 'socket.io-client';
-import { Section, Title, ChatContainer, Message, User, Input, Button, Form, DeleteButton } from './styled';
+import Section from './styled';
+import { IoSend } from 'react-icons/io5';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const ipOrigin = 'https://192.168.3.20:3001'; // passa o ip do servidor aq
@@ -16,6 +17,9 @@ function Chat() {
 
   const navigate = useNavigate();
 
+	// 1. Crie uma referência para o elemento que contém as mensagens
+	const messagesContainerRef = useRef(null);
+
   useEffect(() => {
     socket.on('message', (data) => {
       // Desencriptar a mensagem recebida do servidor
@@ -23,7 +27,12 @@ function Chat() {
       const decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
 
       setChatLog((prevChatLog) => [...prevChatLog, decryptedData]);
-    });
+
+      // 2. Rolagem automática para o final quando uma nova mensagem é adicionada
+      if (messagesContainerRef.current) {
+        messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+      }
+		});
 
     // Recuperar mensagens do LocalStorage ao carregar o componente
     const storedMessages = JSON.parse(localStorage.getItem('chatMessages')) || [];
@@ -58,6 +67,11 @@ function Chat() {
     storedMessages.push(messageData);
     localStorage.setItem('chatMessages', JSON.stringify(storedMessages));
 
+    // Rolagem automática para o final quando a mensagem é enviada
+    if (messagesContainerRef.current) {
+      messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+    }
+
     setMessage('');
   };
 
@@ -70,24 +84,31 @@ function Chat() {
 
   return (
     <Section>
-      <Title>Chat</Title>
-      <ChatContainer>
-        {chatLog.map(({user, message}, index) => (
-                  <Message key={index}>
-                    <User>{user}: </User>
-                    {message}
-                  </Message>
+      <h1>Chat</h1>
+      <div className="chatContainer" ref={messagesContainerRef}>
+        {chatLog.map(({ user, message: messageMap }, index) => (
+          <div className="message" key={index}>
+            <div className="user">
+              {user}
+              :
+              {' '}
+            </div>
+            <p>
+              {messageMap}
+            </p>
+          </div>
         ))}
-      </ChatContainer>
-      <Form onSubmit={sendMessage}>
-        <Input
+      </div>
+      <form onSubmit={sendMessage}>
+        <textarea
           type="text"
           value={message}
+          maxLength={200}
           onChange={(e) => setMessage(e.target.value)}
         />
-        <Button type='submit'>Enviar</Button>
-      </Form>
-      <DeleteButton type='button' onClick={handleClearMessages}>Limpar Mensagens</DeleteButton>
+        <button aria-label="enviar" className="sendButton" type="submit"><IoSend size={24} /></button>
+      </form>
+      <button className="deleteButton" type="button" onClick={handleClearMessages}>Limpar Mensagens</button>
     </Section>
   );
 
