@@ -105,6 +105,7 @@ function Chat() {
           value={message}
           maxLength={200}
           onChange={(e) => setMessage(e.target.value)}
+					placeholder="Mensagem..."
         />
         <button aria-label="enviar" className="sendButton" type="submit"><IoSend size={24} /></button>
       </form>

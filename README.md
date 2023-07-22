@@ -1,5 +1,7 @@
 # IMPORTANTE
 
+Copie apenas um modelo, se for usar o https copie apenas a pasta com o codigo com https
+
 lembre-se de criar o .env na raiz do projeto para passar as chaves para o servidor e o client
 lembre-se tambem de verificar se as portas estão disponiveis no seu computador e
 de verificar se os endereços de ip estão corretamente digitados tanto no cliente quanto no servidor

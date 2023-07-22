@@ -17,6 +17,6 @@ module.exports = {
     'react',
   ],
   rules: {
-    'no-tabs': false,
+    'no-tabs': 0,
   },
 };
