@@ -1,0 +1,28 @@
+# HTTP server to redirect all requests to HTTPS
+server {
+    listen 665 default_server;
+    listen [::]:665 default_server;
+    server_name apichatlgbt.ddns.net;
+
+    location / {
+        return 301 https://$host$request_uri;
+    }
+}
+
+# HTTPS server with reverse proxy to Node.js
+server {
+    listen 666 ssl;
+    server_name apichatlgbt.ddns.net;
+
+    ssl_certificate /etc/letsencrypt/live/apichatlgbt.ddns.net/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/apichatlgbt.ddns.net/privkey.pem;
+
+    location / {
+        proxy_pass https://127.0.0.1:3001;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+}

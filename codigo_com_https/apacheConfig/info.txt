@@ -1,0 +1,5 @@
+/etc/apache2/sites-available/  esses arquivos ficam aqui
+
+o apache ta configurado para executar o que tiver dentro do diretorio /var/www/html/
+
+http porta 80 e https porta 443

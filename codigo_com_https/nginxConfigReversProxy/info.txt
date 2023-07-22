@@ -1,0 +1,8 @@
+/etc/nginx/sites-available/  esses arquivos ficam aqui
+
+escolha as portas de sua preferencia
+
+ta rodando atualmente em porta http 665
+https 666
+
+ele faz conexão proxy reverso com o server.js na porta escolhida la, cuidado com todas portas
